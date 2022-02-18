@@ -1,16 +1,56 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="">
-  </head>
-  <body>
-    <h1>Welcome to Wacky Widgets</h1>
-    
-    <script src="" async defer></script>
-  </body>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>Wacky Widgets</title>
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
+			integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w"
+			crossorigin="anonymous"
+		/>
+		{% comment %}
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{% static 'css/style.css' %}"
+		/>
+		{% endcomment %}
+	</head>
+	<body>
+		<h1>Welcome to Wacky Widgets</h1>
+		<h2><a href="{% url 'create_widget' %}">Add a Widget</a></h2>
+		<h2><a href="{% url 'delete_widget' %}">Delete</a></h2>
+
+		{% if widgets|length == 0 %} {% for widget in my_widgets %} {% comment %}
+		<a href="{% url 'detail' widget.id %}">
+			{% endcomment %}
+			<h1>Widget List</h1>
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title">{{ cat.name }}</span>
+					<p>Description: {{ widget.description }}</p>
+					<p>Quantity: {{ widget.quauntiy }}</p>
+				</div>
+			</div>
+			{% comment %}
+		</a>
+		{% endcomment %} {% endfor %} {% else %}
+		<h3>No Widgets Exist</h3>
+		{% endif %}
+		<hr />
+		<form action="{% url 'create_widget' widget.id%}" method="post">
+			{% csrf_token %} 
+			{{ widget_form.as_p }}
+			{% comment %} <table>
+				{{ form.as_table }}
+			</table> {% endcomment %}
+			<input type="submit" value="Submit!" class="btn" />
+		</form>
+
+		<script src="" async defer></script>
+	</body>
 </html>
